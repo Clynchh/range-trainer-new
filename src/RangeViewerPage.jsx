@@ -29,10 +29,10 @@ export default function RangeViewerPage({ charts }) {
   });
 
   const dims = [
-    { key: "stacks", label: "Stack", vals: opts.stacks, render: (v) => `${v}bb` },
-    { key: "pots", label: "Pot type", vals: opts.pots, render: (v) => potLabel(v) },
-    { key: "heroes", label: "Hero", vals: opts.heroes, render: (v) => v },
-    { key: "villains", label: "Villain", vals: opts.villains, render: (v) => (v === null ? "(RFI)" : v) },
+    { key: "stacks", label: "Stack", vals: opts.stacks, render: (v) => `${v}bb`, avail: opts.avail.stacks },
+    { key: "pots", label: "Pot type", vals: opts.pots, render: (v) => potLabel(v), avail: opts.avail.pots },
+    { key: "heroes", label: "Hero", vals: opts.heroes, render: (v) => v, avail: opts.avail.heroes },
+    { key: "villains", label: "Villain", vals: opts.villains, render: (v) => (v === null ? "(RFI)" : v), avail: opts.avail.villains },
   ];
 
   return (
@@ -48,11 +48,12 @@ export default function RangeViewerPage({ charts }) {
           <span style={{ width: 66, fontFamily: F.body, fontSize: 9, color: C.textDim, letterSpacing: "0.1em", textTransform: "uppercase" }}>{d.label}</span>
           {d.vals.map((v) => {
             const on = sel[d.key].has(v);
+            const has = d.avail.has(v);
             return (
-              <button key={String(v)} onClick={() => toggle(d.key, v)} style={{
+              <button key={String(v)} onClick={() => toggle(d.key, v)} title={has ? "" : "no ranges built yet"} style={{
                 padding: "5px 11px", fontFamily: F.body, fontSize: 11.5, fontWeight: 600, borderRadius: 16, cursor: "pointer",
-                border: `1px solid ${on ? C.gold : C.border}`, background: on ? `${C.gold}1a` : C.card,
-                color: on ? C.goldBright : C.textSoft,
+                border: `1px ${has || on ? "solid" : "dashed"} ${on ? C.gold : C.border}`, background: on ? `${C.gold}1a` : C.card,
+                color: on ? C.goldBright : has ? C.textSoft : C.textDim, opacity: has || on ? 1 : 0.5,
               }}>{d.render(v)}</button>
             );
           })}

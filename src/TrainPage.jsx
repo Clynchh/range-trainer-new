@@ -110,10 +110,10 @@ export default function TrainPage({ charts, session }) {
 // ---------------------------------------------------------------------------
 function ScenarioSelect({ opts, sel, toggle, clear, matching, playableOnly, setPlayableOnly, start }) {
   const dims = [
-    { key: "stacks", label: "Stack depth", vals: opts.stacks, render: (v) => `${v}bb` },
-    { key: "pots", label: "Pot type", vals: opts.pots, render: (v) => potLabel(v) },
-    { key: "heroes", label: "Hero position", vals: opts.heroes, render: (v) => v },
-    { key: "villains", label: "Villain position", vals: opts.villains, render: (v) => (v === null ? "(none / RFI)" : v) },
+    { key: "stacks", label: "Stack depth", vals: opts.stacks, render: (v) => `${v}bb`, avail: opts.avail.stacks },
+    { key: "pots", label: "Pot type", vals: opts.pots, render: (v) => potLabel(v), avail: opts.avail.pots },
+    { key: "heroes", label: "Hero position", vals: opts.heroes, render: (v) => v, avail: opts.avail.heroes },
+    { key: "villains", label: "Villain position", vals: opts.villains, render: (v) => (v === null ? "(none / RFI)" : v), avail: opts.avail.villains },
   ];
   const anySel = ["stacks", "pots", "heroes", "villains"].some((k) => sel[k].size);
 
@@ -134,13 +134,15 @@ function ScenarioSelect({ opts, sel, toggle, clear, matching, playableOnly, setP
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {d.vals.map((v) => {
               const on = sel[d.key].has(v);
+              const has = d.avail.has(v);
               return (
-                <button key={String(v)} onClick={() => toggle(d.key, v)} style={{
+                <button key={String(v)} onClick={() => toggle(d.key, v)} title={has ? "" : "no ranges built yet"} style={{
                   padding: "7px 13px", fontFamily: F.body, fontSize: 12, fontWeight: 600,
                   borderRadius: 20, cursor: "pointer", transition: "all 0.15s",
-                  border: `1px solid ${on ? C.gold : C.border}`,
+                  border: `1px ${has || on ? "solid" : "dashed"} ${on ? C.gold : C.border}`,
                   background: on ? `${C.gold}1a` : C.card,
-                  color: on ? C.goldBright : C.textSoft,
+                  color: on ? C.goldBright : has ? C.textSoft : C.textDim,
+                  opacity: has || on ? 1 : 0.5,
                 }}>{d.render(v)}</button>
               );
             })}

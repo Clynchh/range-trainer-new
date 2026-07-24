@@ -9,10 +9,14 @@ export const ACTION_LABELS = {
 export const ACTION_ORDER = ["raise", "raise_big", "allin", "open", "limp",
   "3bet", "4bet", "5bet", "squeeze", "call", "fold"];
 
+// Standardized taxonomy (mirrors scripts/mtt.py). action_type = pot code.
 export const POT_LABELS = {
-  RFI: "RFI", vs_RFI: "vs RFI", vs_3bet: "vs 3-Bet", vs_4bet: "vs 4-Bet",
-  squeeze: "Squeeze", vs_squeeze: "vs Squeeze",
+  rfi: "RFI", limp: "Limp", iso: "Iso", "3bet": "3-Bet",
+  rc: "Raise-Call", squeeze: "Squeeze", "4bet": "4-Bet", "5bet": "5-Bet",
 };
+export const POT_ORDER = ["rfi", "limp", "iso", "3bet", "rc", "squeeze", "4bet", "5bet"];
+export const STACK_DEPTHS = [200, 100, 80, 60, 50, 40, 35, 30, 25, 22, 20, 17, 14, 12, 10, 7, 5];
+export const POSITIONS = ["UTG", "UTG+1", "LJ", "HJ", "CO", "BTN", "SB", "BB"];
 
 // canonical seat order for sorting
 export const POS_ORDER = ["UTG", "UTG+1", "UTG+2", "LJ", "MP", "HJ", "CO", "BTN", "SB", "BB"];
@@ -72,21 +76,23 @@ export function chartActions(chart) {
 }
 
 // ---- scenario grouping -----------------------------------------------------
-// Build the distinct value set for each dimension across all charts.
+// Full skeleton for every dimension (so unbuilt stacks/pots still show), plus
+// `avail`: which values actually have charts loaded (used to dim the rest).
 export function dimensionOptions(charts) {
-  const stacks = new Set(), pots = new Set(), heroes = new Set(), villains = new Set();
+  const avail = { stacks: new Set(), pots: new Set(), heroes: new Set(), villains: new Set() };
   for (const c of charts) {
     const s = c.situation;
-    stacks.add(s.stack_depth_bb);
-    pots.add(s.action_type);
-    heroes.add(s.hero_position);
-    villains.add(s.vs_position || null);
+    avail.stacks.add(s.stack_depth_bb);
+    avail.pots.add(s.action_type);
+    avail.heroes.add(s.hero_position);
+    avail.villains.add(s.vs_position || null);
   }
   return {
-    stacks: [...stacks].sort((a, b) => a - b),
-    pots: [...pots].sort(),
-    heroes: [...heroes].sort((a, b) => posRank(a) - posRank(b)),
-    villains: [...villains].sort((a, b) => (a === null ? -1 : posRank(a)) - (b === null ? -1 : posRank(b))),
+    stacks: STACK_DEPTHS,
+    pots: POT_ORDER,
+    heroes: POSITIONS,
+    villains: [null, ...POSITIONS],
+    avail,
   };
 }
 

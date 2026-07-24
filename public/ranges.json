@@ -1,11 +1,11 @@
 [
  {
-  "file": "mtt_35bb_UTG_RFI.json",
+  "file": "35bb/rfi/UTG.json",
   "situation": {
    "format": "MTT",
    "stack_depth_bb": 35,
    "hero_position": "UTG",
-   "action_type": "RFI",
+   "action_type": "rfi",
    "vs_position": null,
    "vs_action": null
   },
@@ -521,12 +521,12 @@
   }
  },
  {
-  "file": "mtt_35bb_UTGplus1_RFI.json",
+  "file": "35bb/rfi/UTGplus1.json",
   "situation": {
    "format": "MTT",
    "stack_depth_bb": 35,
    "hero_position": "UTG+1",
-   "action_type": "RFI",
+   "action_type": "rfi",
    "vs_position": null,
    "vs_action": null
   },
@@ -1042,12 +1042,12 @@
   }
  },
  {
-  "file": "mtt_35bb_LJ_RFI.json",
+  "file": "35bb/rfi/LJ.json",
   "situation": {
    "format": "MTT",
    "stack_depth_bb": 35,
    "hero_position": "LJ",
-   "action_type": "RFI",
+   "action_type": "rfi",
    "vs_position": null,
    "vs_action": null
   },
@@ -1564,12 +1564,12 @@
   }
  },
  {
-  "file": "mtt_35bb_HJ_RFI.json",
+  "file": "35bb/rfi/HJ.json",
   "situation": {
    "format": "MTT",
    "stack_depth_bb": 35,
    "hero_position": "HJ",
-   "action_type": "RFI",
+   "action_type": "rfi",
    "vs_position": null,
    "vs_action": null
   },
@@ -2085,12 +2085,12 @@
   }
  },
  {
-  "file": "mtt_35bb_CO_RFI.json",
+  "file": "35bb/rfi/CO.json",
   "situation": {
    "format": "MTT",
    "stack_depth_bb": 35,
    "hero_position": "CO",
-   "action_type": "RFI",
+   "action_type": "rfi",
    "vs_position": null,
    "vs_action": null
   },
@@ -2606,12 +2606,12 @@
   }
  },
  {
-  "file": "mtt_35bb_BTN_RFI.json",
+  "file": "35bb/rfi/BTN.json",
   "situation": {
    "format": "MTT",
    "stack_depth_bb": 35,
    "hero_position": "BTN",
-   "action_type": "RFI",
+   "action_type": "rfi",
    "vs_position": null,
    "vs_action": null
   },
@@ -3128,12 +3128,12 @@
   }
  },
  {
-  "file": "mtt_35bb_SB_RFI.json",
+  "file": "35bb/rfi/SB.json",
   "situation": {
    "format": "MTT",
    "stack_depth_bb": 35,
    "hero_position": "SB",
-   "action_type": "RFI",
+   "action_type": "rfi",
    "vs_position": null,
    "vs_action": null
   },
