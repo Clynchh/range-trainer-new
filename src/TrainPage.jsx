@@ -2,6 +2,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { supabase } from "./supabaseClient";
 import { C, F } from "./styles";
+import PokerTable from "./PokerTable";
 import {
   dimensionOptions, filterCharts, pickHand, parseHand, chartActions,
   nonFoldActions, actionLabel, actionColor, situationText, potLabel,
@@ -188,25 +189,11 @@ function ScenarioSelect({ opts, sel, toggle, clear, matching, playableOnly, setP
 }
 
 // ---------------------------------------------------------------------------
-function Card({ rank, suit, red }) {
-  return (
-    <div style={{
-      width: 66, height: 92, borderRadius: 9, background: "#f5f5ef", color: red ? "#c0392b" : "#111",
-      display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "8px 9px",
-      fontWeight: 700, boxShadow: "0 4px 12px rgba(0,0,0,.4)",
-    }}>
-      <span style={{ fontSize: 26, lineHeight: 1 }}>{rank}</span>
-      <span style={{ fontSize: 22, alignSelf: "flex-end", lineHeight: 1 }}>{suit}</span>
-    </div>
-  );
-}
-
 function DrillView({ cur, answered, picked, stats, onAnswer, onNext, onBack, poolCount }) {
   if (!cur) return null;
   const { chart, hand } = cur;
   const actions = chart.range[hand];
   const p = parseHand(hand);
-  const suits = p.type === "suited" ? [["♠", false], ["♠", false]] : [["♠", false], ["♥", true]];
   const buttons = chartActions(chart);
   const isCorrect = (a) => (actions[a] || 0) > 0;
   const mixed = nonFoldActions(actions).length + (actions.fold ? 1 : 0) > 1;
@@ -226,16 +213,9 @@ function DrillView({ cur, answered, picked, stats, onAnswer, onNext, onBack, poo
       </div>
 
       <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14, padding: 24 }}>
-        <div style={{ textAlign: "center", fontFamily: F.body, fontSize: 13, color: C.textSoft, marginBottom: 6 }}>
-          {situationText(chart.situation)}
-        </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: 12, margin: "16px 0 6px" }}>
-          {[[p.a, suits[0]], [p.b, suits[1]]].map(([r, [s, red]], i) => (
-            <Card key={i} rank={r} suit={s} red={red} />
-          ))}
-        </div>
-        <div style={{ textAlign: "center", fontFamily: F.body, fontSize: 12, color: C.textDim, letterSpacing: "1px", textTransform: "uppercase", marginBottom: 18 }}>
-          {hand} · {p.type}
+        <PokerTable situation={chart.situation} hand={hand} />
+        <div style={{ textAlign: "center", fontFamily: F.body, fontSize: 13, color: C.text, letterSpacing: "1px", fontWeight: 600, margin: "6px 0 18px" }}>
+          {hand} <span style={{ color: C.textDim, fontWeight: 400, fontSize: 11, textTransform: "uppercase" }}>· {p.type}</span>
         </div>
 
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>

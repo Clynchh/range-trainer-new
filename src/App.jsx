@@ -5,6 +5,7 @@ import { C, F } from "./styles";
 import AuthPage from "./AuthPage";
 import OnboardingPage from "./OnboardingPage";
 import TrainPage from "./TrainPage";
+import RangeViewerPage from "./RangeViewerPage";
 import AnalysisPage from "./AnalysisPage";
 import LeaderboardPage from "./LeaderboardPage";
 
@@ -59,6 +60,7 @@ export default function App() {
 
   const tabs = [
     { id: "train", label: "Train" },
+    { id: "ranges", label: "Ranges" },
     { id: "analysis", label: "My Stats" },
     { id: "leaderboard", label: "Leaderboard" },
   ];
@@ -103,6 +105,7 @@ export default function App() {
         {!charts ? <Splash text="Loading ranges..." inline /> : (
           <>
             {tab === "train" && <TrainPage charts={charts} session={session} />}
+            {tab === "ranges" && <RangeViewerPage charts={charts} />}
             {tab === "analysis" && <AnalysisPage session={session} />}
             {tab === "leaderboard" && <LeaderboardPage />}
           </>

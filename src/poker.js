@@ -30,6 +30,22 @@ export function parseHand(h) {
   return { a: h[0], b: h[1], type: h[2] === "s" ? "suited" : "offsuit" };
 }
 
+// 13x13 grid mapping (matches the extractor: pairs on the diagonal,
+// suited upper-right, offsuit lower-left).
+export const RANKS = "AKQJT98765432";
+export function cellHand(r, c) {
+  if (r === c) return RANKS[r] + RANKS[r];
+  if (r < c) return RANKS[r] + RANKS[c] + "s";
+  return RANKS[c] + RANKS[r] + "o";
+}
+
+// Two hole-card faces (rank + suit + isRed) for a hand class.
+export function holeCards(hand) {
+  const p = parseHand(hand);
+  if (p.type === "suited") return [{ r: p.a, s: "♠", red: false }, { r: p.b, s: "♠", red: false }];
+  return [{ r: p.a, s: "♠", red: false }, { r: p.b, s: "♥", red: true }];
+}
+
 // One-line description of a chart's situation
 export function situationText(s) {
   let t = `${s.stack_depth_bb}bb · ${s.hero_position} · ${potLabel(s.action_type)}`;
